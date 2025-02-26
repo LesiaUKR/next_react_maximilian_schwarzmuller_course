@@ -5,9 +5,7 @@ export default function MealDetailsPage({ params }) {
 
   return (
     <div>
-      <h1>
-        Meal <Details></Details>
-      </h1>
+      <h1>Meal Details</h1>
       <p>Meal: {params.slug}</p>
     </div>
   );
