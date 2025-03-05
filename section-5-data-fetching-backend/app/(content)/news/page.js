@@ -2,12 +2,12 @@ import NewsList from "@/components/news/news-list";
 import { getAllNews } from "@/lib/news";
 
 export default async function NewsPage() {
-  const news = getAllNews();
+  const news = await getAllNews();
 
   return (
     <>
       <h1>NEWS PAGE</h1>
-      <NewsList news={news} />;
+      <NewsList news={news} />
     </>
   );
 }
