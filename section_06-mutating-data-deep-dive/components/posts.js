@@ -41,7 +41,7 @@ export default function Posts({ posts }) {
     posts,
     (prevPosts, updatedPostId) => {
       const updatedPostIndex = prevPosts.findIndex(
-        (post) => post.id === updatedPostId
+        (post) => post.id === updatedPostId,
       );
 
       if (updatedPostIndex === -1) {
@@ -55,7 +55,7 @@ export default function Posts({ posts }) {
       const newPosts = [...prevPosts];
       newPosts[updatedPostIndex] = updatedPost;
       return newPosts;
-    }
+    },
   );
 
   if (!optimisticPosts || optimisticPosts.length === 0) {

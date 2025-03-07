@@ -32,7 +32,7 @@ export async function createPost(prevState, formData) {
     console.log("Image uploaded to Cloudinary:", imageUrl);
   } catch (error) {
     throw new Error(
-      "Image upload failed, post was not created. Please try again."
+      "Image upload failed, post was not created. Please try again.",
     );
   }
 
