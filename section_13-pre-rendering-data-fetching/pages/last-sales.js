@@ -3,13 +3,14 @@ import useSWR from "swr";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-export default function LastSalesPage() {
-   const [sales, setSales] = useState();  
+export default function LastSalesPage(props) {
+   const [sales, setSales] = useState(props.sales);  
    // const [isLoading, setIsLoading] = useState(false);
 
    const {data, error }=useSWR('https://nextjs-course-maxim-default-rtdb.europe-west1.firebasedatabase.app/sales.json',
     fetcher);
 
+   
    // useEffect(() => {
    //    setIsLoading(true);
    //    fetch('https://nextjs-course-maxim-default-rtdb.europe-west1.firebasedatabase.app/sales.json')
@@ -54,13 +55,10 @@ export default function LastSalesPage() {
       return <p>Failed to load</p>
    }
 
-   if (!data) {
+   if (!data && !sales) {
       return <p>Loading...</p>
    }
 
-     if (!sales) {
-      return <p>Loading...</p>
-   }
 
   return (
     <ul>
@@ -71,4 +69,25 @@ export default function LastSalesPage() {
       ))}
     </ul>
   )
+}
+
+export async function getStaticProps() {
+   const response = await fetch('https://nextjs-course-maxim-default-rtdb.europe-west1.firebasedatabase.app/sales.json')
+      const data = await response.json();
+
+            const transformedSales = [];
+            for (const key in data) {
+               transformedSales.push({
+                  id: key,
+                  username: data[key].username,
+                  volume: data[key].volume
+               });
+               }
+ return {
+      props: {
+         sales: transformedSales
+      },
+      revalidate: 10
+   }
+  
 }
