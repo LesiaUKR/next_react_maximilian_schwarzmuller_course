@@ -1,14 +1,15 @@
-import { Fragment } from 'react';
-import { useRouter } from 'next/router';
+import { Fragment } from "react";
+// import { useRouter } from "next/router";
 
-import { getFilteredEvents } from '../../helpers/api-util';
-import EventList from '../../components/events/event-list';
-import ResultsTitle from '../../components/events/results-title';
-import Button from '../../components/ui/button';
-import ErrorAlert from '../../components/ui/error-alert';
+import { getFilteredEvents } from "../../helpers/api-util";
+import EventList from "../../components/events/event-list";
+import ResultsTitle from "../../components/events/results-title";
+import Button from "../../components/ui/button";
+import ErrorAlert from "../../components/ui/error-alert";
+import Head from "next/head";
 
 function FilteredEventsPage(props) {
-  const router = useRouter();
+  // const router = useRouter();
 
   // const filterData = router.query.slug;
 
@@ -22,16 +23,17 @@ function FilteredEventsPage(props) {
   // const numYear = +filteredYear;
   // const numMonth = +filteredMonth;
 
-  if (
-   props.hasError
-  ) {
+  if (props.hasError) {
     return (
       <Fragment>
+        <Head>
+          <title>Invalid Filter</title>
+        </Head>
         <ErrorAlert>
           <p>Invalid filter. Please adjust your values!</p>
         </ErrorAlert>
-        <div className='center'>
-          <Button link='/events'>Show All Events</Button>
+        <div className="center">
+          <Button link="/events">Show All Events</Button>
         </div>
       </Fragment>
     );
@@ -42,11 +44,14 @@ function FilteredEventsPage(props) {
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <Fragment>
+        <Head>
+          <title>No Events Found</title>
+        </Head>
         <ErrorAlert>
           <p>No events found for the chosen filter!</p>
         </ErrorAlert>
-        <div className='center'>
-          <Button link='/events'>Show All Events</Button>
+        <div className="center">
+          <Button link="/events">Show All Events</Button>
         </div>
       </Fragment>
     );
@@ -56,6 +61,13 @@ function FilteredEventsPage(props) {
 
   return (
     <Fragment>
+      <Head>
+        <title>Filtered Events</title>
+        <meta
+          name="description"
+          content={`All events for ${props.date.month}/${props.date.year}.`}
+        />
+      </Head>
       <ResultsTitle date={date} />
       <EventList items={filteredEvents} />
     </Fragment>
@@ -105,7 +117,5 @@ export async function getServerSideProps(context) {
     },
   };
 }
-
-
 
 export default FilteredEventsPage;

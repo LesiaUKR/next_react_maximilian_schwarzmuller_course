@@ -1,15 +1,14 @@
-import { Fragment } from 'react';
+import { Fragment } from "react";
+import Head from "next/head";
 
-import { getEventById, getFeaturedEvents} from '../../helpers/api-util';
-import EventSummary from '../../components/event-detail/event-summary';
-import EventLogistics from '../../components/event-detail/event-logistics';
-import EventContent from '../../components/event-detail/event-content';
-import ErrorAlert from '../../components/ui/error-alert';
+import { getEventById, getFeaturedEvents } from "../../helpers/api-util";
+import EventSummary from "../../components/event-detail/event-summary";
+import EventLogistics from "../../components/event-detail/event-logistics";
+import EventContent from "../../components/event-detail/event-content";
 
 function EventDetailPage(props) {
- 
   const event = props.selectedEvent;
-  
+
   if (!event) {
     return (
       <div className="center">
@@ -20,6 +19,10 @@ function EventDetailPage(props) {
 
   return (
     <Fragment>
+      <Head>
+        <meta name="description" content={event.description} />
+        <title>{event.title}</title>
+      </Head>
       <EventSummary title={event.title} />
       <EventLogistics
         date={event.date}
@@ -34,8 +37,6 @@ function EventDetailPage(props) {
   );
 }
 
-
-
 export async function getStaticProps(context) {
   const eventId = context.params.eventId;
 
@@ -43,26 +44,23 @@ export async function getStaticProps(context) {
 
   if (!event) {
     return {
-      notFound: true
+      notFound: true,
     };
   }
 
   return {
     props: { selectedEvent: event },
-    revalidate: 30
+    revalidate: 30,
   };
 }
- 
-export async function getStaticPaths() { 
+
+export async function getStaticPaths() {
   const events = await getFeaturedEvents();
-  const paths = events.map(
-    event => (
-      { params: { eventId: event.id } }
-    ));
+  const paths = events.map((event) => ({ params: { eventId: event.id } }));
   return {
     paths: paths,
-    fallback: 'blocking',
-  }
+    fallback: "blocking",
+  };
 }
 
 export default EventDetailPage;
