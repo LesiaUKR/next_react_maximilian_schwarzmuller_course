@@ -1,10 +1,10 @@
 import { Fragment, useState } from 'react';
-import { buildFeedbackPath, extractFeedback } from '../api/feedback';
+import { buildFeedbackPath, extractFeedback } from '../api/feedback/';
 
 export default function FeedbackPage(props) {
    const [feedbackItem, setFeedbackItem] = useState(props.feedbackItems);
    function feedbackDetailsHandler(id) { 
-fetch(`/api/${id}`)
+fetch(`/api/feedback/${id}`)
 .then((response) => response.json())
    .then((data) => { 
       setFeedbackItem(data.feedback);
