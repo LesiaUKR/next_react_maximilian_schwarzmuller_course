@@ -4,6 +4,7 @@
   },
   "dependencies": {
     "@lucia-auth/adapter-sqlite": "^3.0.2",
-    "lucia": "^3.2.2"
+    "lucia": "^3.2.2",
+    "mongodb": "^6.15.0"
   }
 }
